@@ -1,61 +1,78 @@
 let humanScore = 0;
 let computerScore = 0;
+const btnRock = document.querySelector("#Rock");
+const btnPaper = document.querySelector("#Paper");
+const btnScissors = document.querySelector("#Scissors");
+const buttons = document.querySelector(".buttons");
+let results = document.querySelector("#results");
+let choices = document.querySelector("#choices");
 
 function getComputerChoice() {
-    const randomNumber = Math.floor(Math.random() * 3) + 1;
+    const randomNumber = Math.floor(Math.random() * 3);
     
     switch (randomNumber) {
-        case 1:
+        case 0:
             return "rock";
-            break;
-        case 2:
+        case 1:
             return "paper";
-            break;
-        case 3:
+        case 2:
             return "scissors";
-            break;
     }
 }
 
-function getHumanChoice() {
+function getHumanChoice(e) {
     let humanChoice;
+    let target = e.target;
 
-    while (true) {
-        humanChoice = prompt("Type your choice: Rock, Paper or Scissors").toLowerCase();
-
-        if (humanChoice === "rock" || humanChoice === "paper" || humanChoice === "scissors") {
-            break;
-        }
-    }
-    
-    switch (humanChoice) {
+    switch (target.id) {
         case "rock":
-            return "rock";
+            humanChoice = "rock";
             break;
         case "paper":
-            return "paper";
+            humanChoice = "paper";
             break;
         case "scissors":
-            return "scissors";
-            break;
+            humanChoice = "scissors";
+            break;            
     }
+
+    return humanChoice;
 }
 
-function playRound(humanChoice, computerChoice) {    
+function playRound(e) {    
+    const computerChoice = getComputerChoice();
+    const humanChoice = getHumanChoice(e);
+
+    if (!humanChoice) return;
+    
     if ((humanChoice === "rock" && computerChoice === "paper") ||
         (humanChoice === "paper" && computerChoice === "scissors") ||
         (humanChoice === "scissors" && computerChoice === "rock")) {
-        computerScore += 1;
-        alert(`You lose! Current scores: computer ${computerScore}, you ${humanScore}`)
+        computerScore ++;
+        results.innerHTML = `Computer wins the round! Computer: ${computerScore}, You: ${humanScore}`
     } else if (humanChoice === computerChoice) {
-        alert(`Draw! Current scores: computer ${computerScore}, you ${humanScore}`);
+        results.innerHTML = `Draw! Computer: ${computerScore}, You: ${humanScore}`
     } else {
-        humanScore += 1;
-        alert(`You win! Current scores: computer ${computerScore}, you ${humanScore}`);
+        humanScore ++;
+        results.innerHTML = `You win the round! Computer: ${computerScore}, You: ${humanScore}`
     }
+
+    choices.innerHTML = `Computer chose ${computerChoice} while you chose ${humanChoice}`;
+
 }
 
-function playGame(numberOfRounds) {
+// TODO: implement end of round function with reset functionality
+    if (computerScore === 5) {
+        alert("Computer wins!")
+        return;
+    } else if (humanScore === 5) {
+        alert("You win!");
+        return;
+    }
+
+buttons.addEventListener("click", playRound);
+
+/* function playGame(numberOfRounds) {
     for (let i = 0; i < numberOfRounds; i++) {
         const humanSelection = getHumanChoice();
         const computerSelection = getComputerChoice();
@@ -72,4 +89,4 @@ function playGame(numberOfRounds) {
     }
 }
 
-playGame(5);
+playGame(5);*/
