@@ -58,17 +58,23 @@ function playRound(e) {
     }
 
     choices.innerHTML = `Computer chose ${computerChoice} while you chose ${humanChoice}`;
+    
+    if (humanScore === 5) {
+        alert("You're the winner!");
+        computerScore = 0;
+        humanScore = 0;
+        results.innerHTML = "";
+        choices.innerHTML = "";
+    } else if (computerScore === 5) {
+        alert("Computer wins!");
+        computerScore = 0;
+        humanScore = 0;
+        results.innerHTML = "";
+        choices.innerHTML = "";
+    };
 
+    
 }
-
-// TODO: implement end of round function with reset functionality
-    if (computerScore === 5) {
-        alert("Computer wins!")
-        return;
-    } else if (humanScore === 5) {
-        alert("You win!");
-        return;
-    }
 
 buttons.addEventListener("click", playRound);
 
